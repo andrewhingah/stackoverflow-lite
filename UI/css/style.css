@@ -85,7 +85,7 @@ body{
    
 }
 
-.form-group input{
+.form-group input, textarea{
 	font-family: "Roboto", Sans-sarif;
 	outline: 1;
 	background: #f4f4f4;
