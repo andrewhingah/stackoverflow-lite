@@ -30,6 +30,7 @@ body{
 	width: 80%;
 	margin: auto;
 }
+
 .forum li {
 	border-bottom: 2px solid;
 	padding: 10px;
@@ -120,4 +121,13 @@ body{
 
 #my-form a{
 	text-decoration: none;
+}
+
+.block{
+	float: left;
+	width: 33.3%;
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin: 50px;
+	box-sizing: border-box;
 }
