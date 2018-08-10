@@ -26,6 +26,16 @@ body{
 	text-align: right;
 }
 
+.forum{
+	width: 80%;
+	margin: auto;
+}
+.forum li {
+	border-bottom: 2px solid;
+	padding: 10px;
+	list-style: none;
+}
+
 #navbar ul{
 	padding: 0;
 	list-style: none;
@@ -47,7 +57,7 @@ body{
 }
 
 #main-footer{
-   position:absolute;
+   position:fixed;
    text-align: center;
    bottom:0;
    width:100%;
@@ -75,7 +85,7 @@ body{
    
 }
 
-.form-group input{
+.form-group input, textarea{
 	font-family: "Roboto", Sans-sarif;
 	outline: 1;
 	background: #f4f4f4;
