@@ -8,6 +8,10 @@ body{
 	border-top: 2px solid red;
 }
 
+a{
+	text-decoration: none;
+}
+
 #main-header{
 	background-color: #f4f4f4;
 	color: #555
@@ -130,4 +134,10 @@ body{
 	padding: 10px;
 	margin: 50px;
 	box-sizing: border-box;
+}
+
+.answers{
+	background: #f4f4f4;
+	padding: 10px;
+	margin-bottom: 100px;
 }
