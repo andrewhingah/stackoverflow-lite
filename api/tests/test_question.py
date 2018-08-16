@@ -3,17 +3,17 @@
 import unittest
 import json
 
-from v1.resources import app
+from app.resources import questions
 
 
 class TestStackOverflowApi(unittest.TestCase):
 
     def setUp(self):
-        self.app = app.app.test_client()
+        self.app = questions.app.test_client()
         self.app.testing = True
 
     def test_get_all(self):
-        response = self.app.get(http://127.0.0.1:5000/api/v1.0/items)
+        response = self.app.get('http://127.0.0.1:5000/api/v1/questions')
         data = json.loads(response.get_data())
         self.assertEqual(response.status_code, 200)
 
@@ -23,4 +23,4 @@ class TestStackOverflowApi(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(
+    unittest.main()
