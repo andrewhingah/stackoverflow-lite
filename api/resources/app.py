@@ -56,3 +56,11 @@ def post_question():
     question = {"id": question_id, "question": question}
     questions.append(question)
     return jsonify({'question': question}), 201
+
+@app.route('/api/v1/questions/<int:id>', methods=['DELETE'])
+def delete_question(id):
+    question = _get_question(id)
+    if len(question) == 0:
+        abort(404)
+    questions.remove(question[0])
+    return jsonify({}), 204
