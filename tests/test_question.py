@@ -39,23 +39,6 @@ class TestStackOverflowApi(unittest.TestCase):
         self.assertTrue(type(data['question']['id']) is int)
         self.assertIn('How to write', data['question']['question'])
 
-    def test_update_question(self):
-        question = {"question": "Best js framework for frontend"}
-        response = self.app.put('{}/3'.format(BASE_URL),
-                                data=json.dumps(question),
-                                content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.get_data())
-        self.assertIn("js", data['question']['question'])
-
-    def test_update_error(self):
-        # cannot edit non-existing item
-        question = {"question": "How to host an API?"}
-        response = self.app.put('{}/5'.format(BASE_URL),
-                                data=json.dumps(question),
-                                content_type='application/json')
-        self.assertEqual(response.status_code, 405)
-
     def test_delete(self):
         response = self.app.delete('{}/3'.format(BASE_URL))
         self.assertEqual(response.status_code, 204)
@@ -70,8 +53,6 @@ class TestStackOverflowApi(unittest.TestCase):
                                  content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
-        data = json.loads(response.get_data())
-        self.assertIn("lorem ipsum", data(question[0]["answer"]))
 
     def tearDown(self):
         # reset app.questions to initial state
