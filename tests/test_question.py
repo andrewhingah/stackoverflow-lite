@@ -6,8 +6,6 @@ import json
 from api.resources import app
 
 BASE_URL = 'http://127.0.0.1:5000/api/v1/questions'
-BAD_ITEM_URL = '{}/5'.format(BASE_URL)
-GOOD_ITEM_URL = '{}/3'.format(BASE_URL)
 
 
 class TestStackOverflowApi(unittest.TestCase):
@@ -38,13 +36,7 @@ class TestStackOverflowApi(unittest.TestCase):
 
         data = json.loads(response.get_data())
         self.assertTrue(type(data['question']['id']) is int)
-        self.assertIn(data['question']['question'], 'How to write')
-        # cannot add same question again again
-        question = {"question": "How to write POST request"}
-        response = self.app.post(BASE_URL,
-                                 data=json.dumps(question),
-                                 content_type='application/json')
-        self.assertEqual(response.status_code, 400)
+        self.assertIn('How to write', data['question']['question'])
 
     def tearDown(self):
         # reset app.questions to initial state

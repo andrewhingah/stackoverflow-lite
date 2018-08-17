@@ -26,6 +26,9 @@ questions = [
 def _get_question(id):
     return [question for question in questions if question['id'] == id]
 
+def _record_exists(question):
+    return [question for question in questions if question["question"] == question]
+
 @app.errorhandler(400)
 def bad_request(error):
     return make_response(jsonify({'error': "bad request"}), 400)
@@ -42,7 +45,16 @@ def get_question(id):
         abort(404)
     return jsonify({'questions': question})
 
-    # return app
+@app.route('/api/v1/questions', methods=['POST'])
+def post_question():
+    if not request.json or 'question' not in request.json:
+        abort(400)
+    question_id = questions[-1].get("id") + 1
+    question = request.json.get('question')
+    if _record_exists(question):
+        abort(400)
+    question = {"id": question_id, "question": question}
+    questions.append(question)
+    return jsonify({'question': question}), 201
 
-# if __name__ == '__main__':
-#     app.run(debug = True)
+    # return app
