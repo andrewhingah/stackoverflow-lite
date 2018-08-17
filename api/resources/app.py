@@ -56,5 +56,3 @@ def post_question():
     question = {"id": question_id, "question": question}
     questions.append(question)
     return jsonify({'question': question}), 201
-
-    # return app

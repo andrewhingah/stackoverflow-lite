@@ -54,6 +54,12 @@ class TestStackOverflowApi(unittest.TestCase):
                                 data=json.dumps(question),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 405)
+        
+    def test_delete(self):
+        response = self.app.delete('{}/3'.format(BASE_URL))
+        self.assertEqual(response.status_code, 204)
+        response = self.app.delete('{}/5'.format(BASE_URL))
+        self.assertEqual(response.status_code, 404)
 
 
     def tearDown(self):
