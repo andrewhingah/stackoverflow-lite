@@ -1,6 +1,6 @@
 """Test cases for the 
     various endpoints"""
-
+from copy import deepcopy
 import unittest
 import json
 
@@ -12,6 +12,7 @@ BASE_URL = 'http://127.0.0.1:5000/api/v1/questions'
 class TestStackOverflowApi(unittest.TestCase):
 
     def setUp(self):
+        self.backup_questions = deepcopy(app.questions)
         self.app = app.app.test_client()
         self.app.testing = True
 
@@ -56,7 +57,7 @@ class TestStackOverflowApi(unittest.TestCase):
 
     def tearDown(self):
         # reset app.questions to initial state
-        pass
+        app.questions = self.backup_questions
 
 
 if __name__ == "__main__":
