@@ -3,7 +3,7 @@
 import unittest
 import json
 
-from app.resources import questions
+from api.resources import questions
 
 
 class TestStackOverflowApi(unittest.TestCase):
@@ -16,6 +16,12 @@ class TestStackOverflowApi(unittest.TestCase):
         response = self.app.get('http://127.0.0.1:5000/api/v1/questions')
         data = json.loads(response.get_data())
         self.assertEqual(response.status_code, 200)
+
+    def test_get_one(self):
+        response = self.app.get('http://127.0.0.1:5000/api/v1/questions')
+        data = json.loads(response.get_data())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['questions'][0]['question'], 'What is API?')
 
     def tearDown(self):
         # reset app.questions to initial state
