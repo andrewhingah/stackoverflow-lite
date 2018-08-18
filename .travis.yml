@@ -6,6 +6,6 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 script:
-  - nosetests --with-coverage --coverage report
+  - nosetests tests -v --with-coverage --cover-package=api
 after_success:
   - coveralls
