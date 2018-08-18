@@ -1,4 +1,5 @@
-# stackoverflow-lite
+# StackOverflow-Lite
+
 StackOverflow-lite is a platform where people can ask questions and provide answers.
 [![Build Status](https://travis-ci.com/andrewhingah/stackoverflow-lite.svg?branch=developAPI)](https://travis-ci.com/andrewhingah/stackoverflow-lite)
 [![Coverage Status](https://coveralls.io/repos/github/andrewhingah/stackoverflow-lite/badge.svg?branch=developAPI)](https://coveralls.io/github/andrewhingah/stackoverflow-lite?branch=developAPI)
