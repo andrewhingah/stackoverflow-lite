@@ -70,7 +70,7 @@ def delete_question(id):
     return jsonify({}), 204
 
 """post an answer to a question by id"""  
-@app.route('/api/v1/questions/answer/<int:id>', methods=['POST'])
+@app.route('/api/v1/questions/<int:id>/answer', methods=['POST'])
 def post_answer(id):
     question = _get_question(id)
     
