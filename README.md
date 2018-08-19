@@ -36,13 +36,13 @@ You need to have the following installed.
 
 8. Test the endpoints on postman
 
-For instance to post a new question you send a request to ```http://127.0.0.1:5000/api/v1/questions```
+	For instance to post a new question you send a request to ```http://127.0.0.1:5000/api/v1/questions```
 
-A sample post question request should be as shown below
+	A sample post question request should be as shown below
 
-'''{
-	"question":"What is an API?"
-}'''
+		{
+			"question":"What is an API?"
+		}
 
 ## Built with
 - Python 3.6
