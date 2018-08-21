@@ -6,7 +6,7 @@ from flask import Flask, jsonify, abort, make_response, request
 app = Flask(__name__)
 
 #questions list
-questions = [
+quizes = [
     {
         'id': 1,
         'question': 'What is API?',
@@ -25,10 +25,10 @@ questions = [
 ]
 
 def _get_question(id):
-    return [question for question in questions if question['id'] == id]
+    return [quiz for quiz in quizes if quiz['id'] == id]
 
 def _record_exists(question):
-    return [question for question in questions if question["question"] == question]
+    return [quiz for quiz in quizes if quiz["question"] == question]
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -37,44 +37,48 @@ def bad_request(error):
 """get all questions"""
 @app.route('/api/v1/questions', methods=['GET'])
 def get_questions():
-    return jsonify({'questions': questions})
+    return jsonify({'questions': quizes})
 
 """post a question"""
 @app.route('/api/v1/questions', methods=['POST'])
 def post_question():
     if not request.json or 'question' not in request.json:
         abort(400)
-    question_id = questions[-1].get("id") + 1
+    question_id = quizes[-1].get("id") + 1
     question = request.json.get('question')
     if _record_exists(question):
         abort(400)
-    question = {"id": question_id, "question": question, "answer":[]}
-    questions.append(question)
-    return jsonify({'question': question}), 201
+
+    quiz = {"id": question_id, "question": question,
+            "answer": []}
+    quizes.append(quiz)
+    return jsonify({'question': quiz}), 201
 
 """get a single question by id"""
 @app.route('/api/v1/questions/<int:id>', methods=['GET'])
 def get_question(id):
-    question = _get_question(id)
-    if not question:
+    quiz = _get_question(id)
+    if not quiz:
         abort(404)
-    return jsonify({'questions': question})
+    return jsonify({'question': quiz})
 
 """delete a single question by id"""
 @app.route('/api/v1/questions/<int:id>', methods=['DELETE'])
 def delete_question(id):
-    question = _get_question(id)
-    if len(question) == 0:
+    quiz = _get_question(id)
+    if len(quiz) == 0:
         abort(404)
-    questions.remove(question[0])
+    quizes.remove(quiz[0])
     return jsonify({}), 204
 
 """post an answer to a question by id"""  
 @app.route('/api/v1/questions/<int:id>/answer', methods=['POST'])
 def post_answer(id):
-    question = _get_question(id)
+    quiz = _get_question(id)
+    if not quiz:
+        abort(404)
     
     answer = request.json.get('answer')
-    question[0]["answer"].append(answer)
+    quiz[0]["answer"].append(answer)
 
-    return jsonify({'questions': question}), 201
+    return jsonify({'questions': quiz}), 201
