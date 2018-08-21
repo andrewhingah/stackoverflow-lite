@@ -64,9 +64,13 @@ class TestStackOverflowApi(unittest.TestCase):
         """
         Test a question can be deleted given id
         """
+        response = self.app.get('{}/3'.format(QUIZ_URL))
+        self.assertEqual(response.status_code, 200)
         response = self.app.delete('{}/3'.format(QUIZ_URL))
         self.assertEqual(response.status_code, 204)
-        response = self.app.delete('{}/5'.format(QUIZ_URL))
+        response = self.app.get('{}/3'.format(QUIZ_URL))
+        self.assertEqual(response.status_code, 404)
+        response = self.app.delete('{}/3'.format(QUIZ_URL))
         self.assertEqual(response.status_code, 404)
 
     def test_post_answer(self):
