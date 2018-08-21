@@ -102,6 +102,15 @@ class TestStackOverflowApi(unittest.TestCase):
                                  content_type='application/json')
         self.assertEqual(response.status_code, 404)
 
+    def test_edit_question(self):
+        question = {"question": "What API's does google have?"}
+        response = self.app.put('{}/1'.format(QUIZ_URL),
+                                data=json.dumps(question),
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['question']['question'], "What API's does google have?")
+
 
     def tearDown(self):
         """
