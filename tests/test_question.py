@@ -103,6 +103,10 @@ class TestStackOverflowApi(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_edit_question(self):
+        """
+        test that user can edit a question.
+        if question doesn't exist, add to the list
+        """
         question = {"question": "What API's does google have?"}
         response = self.app.put('{}/1'.format(QUIZ_URL),
                                 data=json.dumps(question),
