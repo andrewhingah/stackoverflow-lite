@@ -17,7 +17,7 @@ a{
 }
 #main-header h2{
 	font-family: "Trebuchet MS", Helvetica, Sans-sarif;
-	font-size: 50px;
+	font-size: 3vw;
 	color: #C0C0C0;
 }
 
@@ -46,12 +46,18 @@ a{
 	list-style: none;
 }
 
+.forum h1{
+	font-size: 2vw;
+}
+
 .forum h2 , p{
 	color: #256188;
+	font-size: 2vw;
 }
 
 .forum p{
-	font-size: 18px;
+	/*font-size: 18px;*/
+	font-size: 1.5vw;
 }
 
 #navbar{
@@ -75,6 +81,7 @@ a{
 	font-size: 20px;
 	padding: 10px;
 	border-radius: 10px;
+	font-size: 1.5vw;
 
 }
 
@@ -88,7 +95,8 @@ a{
 }
 
 #main-footer p{
-	color: #fff
+	color: #fff;
+	font-size: 1.5vw;
 
 }
 
@@ -103,6 +111,7 @@ a{
 #parent p{
 	color: #256188;
 	font-size: 18px
+	font-size: 1.6vw;
 }
 
 #my-form{
@@ -128,6 +137,7 @@ a{
 	font-size: 20px;
 	border-radius: 10px #555;
 	text-align: center;
+	font-size: 1.6vw;
 
 }
 
