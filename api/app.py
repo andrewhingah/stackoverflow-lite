@@ -4,9 +4,8 @@
 """
 
 from flask_api import FlaskAPI
-# from api.manage import Database
+
 from api import resources
-# db = Database()
 
 from instance.config import app_config
 
