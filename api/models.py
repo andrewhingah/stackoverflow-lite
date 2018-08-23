@@ -1,6 +1,8 @@
+"""models"""
+
 class User(object):
     """
-    user class
+    User class
 
     """
 

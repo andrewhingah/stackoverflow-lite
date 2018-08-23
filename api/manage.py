@@ -4,9 +4,6 @@ import the adapter and try to connect to the database
 
 import psycopg2
 
-class Database():
-
-
 def migrate(app):
 
 	try:
