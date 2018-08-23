@@ -1,8 +1,11 @@
 """
 import the adapter and try to connect to the database
 """
+
 import psycopg2
-# from resources.app import db
+
+class Database():
+
 
 def migrate(app):
 
