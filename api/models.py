@@ -1,4 +1,5 @@
 """models"""
+from api import helpers
 
 class User(object):
     """
@@ -6,14 +7,15 @@ class User(object):
 
     """
 
-    def __init__(self, id=0, name="", email="", password=""):
-        self.id = user_id
+    def __init__(self, id=0, name="", email="", username="", password=""):
+        self.id = id
         self.name = name
         self.email = email
         self.password = password
+        self.username = username
 
     def save(self):
-        pass
+        helpers.insert_user(self)
 
     def addUser(self):
         pass
@@ -30,7 +32,7 @@ class Questions(object):
         self.user_id = user_id
 
     def save(self):
-        pass
+        helpers.create_question(self)
 
 
 class Answer(object):
