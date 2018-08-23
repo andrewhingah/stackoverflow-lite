@@ -15,7 +15,7 @@ def insert_user(users):
     conn.commit()
 
 def get_user(username):
-    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+    cur.execute("""SELECT * FROM users WHERE username = %s""", (username,))
     user = cur.fetchone()
     if user is None:
         return None
