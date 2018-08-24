@@ -15,6 +15,8 @@ web = Blueprint("web", __name__)
 
 @web.route('/api/v2/auth/signup', methods=['POST'])
 def signup():
+	# if user is not None:
+ #        return jsonify({'message': "Email already exists."})
 	user = User(name = request.json.get("name"),
 				email = request.json.get("email"),
 				username = request.json.get("username"),
@@ -27,16 +29,16 @@ def signup():
 def signin():
     username = request.json.get("username")
     password = request.json.get("password")
-    
+
     user = get_user(username)
     if user is None:
-        return jsonify({"message": "Username not found"}), 404
-    elif user['password'] != password:
-        return jsonify({'message': "Incorrect password"}), 400
-    else :
-        token = create_access_token(identity=request.json.get('username'))
-        return jsonify({'message': 'Successfully signed in', 'token': token})
-    return make_response('details not found!, Please Register!'), 401
+        return jsonify({"message": "username not found"}), 404
+    # elif not bcrypt.verify(password, user['password']):
+    #     return jsonify({'message': "Incorrect password"}), 400
+    else:
+        token = create_access_token(identity=request.json.get('email'))
+        return jsonify({'message': 'Logged in successfully!', 'token': token})
+    return make_response('Your account does not exist!, Please Register!'), 401
 
 @web.route('/api/v2/questions', methods=['POST'])
 @jwt_required
@@ -49,6 +51,7 @@ def post_question():
 						user_id = (user["id"]))
 	question.save()
 	return jsonify({'questions': question.__dict__}), 201
+
 # def post_question():
 #     user = get_user("email")
 #     question = Questions(
