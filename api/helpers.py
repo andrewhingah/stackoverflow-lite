@@ -1,3 +1,5 @@
+#api/helpers.py
+import datetime
 import psycopg2
 import psycopg2.extras
 
@@ -23,7 +25,7 @@ def get_user(username):
     return user
 
 def create_question(questions):
-    cur.execute("INSERT INTO questions (question, user_id) values(%s,%s)",(
+    cur.execute("""INSERT INTO questions(question,date_posted,user_id) VALUES('%s', now(), '%s')"""%(
         questions.question,
         questions.user_id))
     conn.commit()

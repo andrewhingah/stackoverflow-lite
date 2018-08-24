@@ -1,10 +1,15 @@
+#api/resources.py
 """Endpoints are defined here"""
 
 from flask_api import FlaskAPI
 from flask import Blueprint
 from flask import request, jsonify, make_response, json, abort
+from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
+
+from datetime import datetime
+
 from api.models import User, Questions, Answer
-from api.helpers import insert_user, get_questions, get_question, edit_question, delete_question
+from api.helpers import insert_user,get_user, get_questions, get_question, edit_question, delete_question
 
 web = Blueprint("web", __name__)
 
@@ -17,38 +22,71 @@ def signup():
 	user.save()
 	return jsonify({'message': 'User created!', 'User': user.__dict__})
 
-# @app.route('/api/v2/auth/signin', methods=['POST'])
+
+@web.route('/api/v2/auth/signin', methods=['POST'])
+def signin():
+    username = request.json.get("username")
+    password = request.json.get("password")
+    
+    user = get_user(username)
+    if user is None:
+        return jsonify({"message": "Username not found"}), 404
+    elif user['password'] != password:
+        return jsonify({'message': "Incorrect password"}), 400
+    else :
+        token = create_access_token(identity=request.json.get('username'))
+        return jsonify({'message': 'Successfully signed in', 'token': token})
+    return make_response('details not found!, Please Register!'), 401
+
+@web.route('/api/v2/questions', methods=['POST'])
+@jwt_required
+def post_question():
+	email = get_jwt_identity()
+	user = get_user(email)
+	question = Questions(
+						question = request.json.get("question"),
+						date_posted = datetime.now(),
+						user_id = (user["id"]))
+	question.save()
+	return jsonify({'questions': question.__dict__}), 201
+# def post_question():
+#     user = get_user("email")
+#     question = Questions(
+#                         question = request.json.get("question"),
+#                         date_posted = datetime.now(),
+#                         user_id = (user["id"]))
+#     print(question);
+#     question.save()
+#     return jsonify({'questions': question.__dict__}), 201
+
+# @web.route('/api/v2/auth/signin', methods=['POST'])
 # def signin():
 
 #     pass
 
-# @app.route('/api/v2/users/questions', methods=['POST'])
-# def post_question():
 
-#     pass
+@web.route('/api/v2/users/questions', methods=['GET'])
+def view_all_questions():
+    return jsonify({'Questions': questions}), 200
 
-# @app.route('/api/v2/questions', methods=['GET'])
-# def get_questions():
-	
-#     pass
 
-# @app.route('/api/v2/questions/<int:id>', methods=['GET'])
+# @web.route('/api/v2/questions/<int:id>', methods=['GET'])
 # def get_question(id):
 
 #     pass
 
-# @app.route('/api/v2/questions/<int:id>', methods=['PUT'])
+# @web.route('/api/v2/questions/<int:id>', methods=['PUT'])
 # def edit_question(id):
 
 #     pass
 
-# @app.route('/api/v2/questions/<int:id>', methods=['DELETE'])
+# @web.route('/api/v2/questions/<int:id>', methods=['DELETE'])
 # def delete_question(id):
 
 
 #     pass
 
-# @app.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
+# @web.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
 # def post_answer(id):
 
 

@@ -17,9 +17,6 @@ class User(object):
     def save(self):
         helpers.insert_user(self)
 
-    def addUser(self):
-        pass
-
 class Questions(object):
     """
     Questions class
