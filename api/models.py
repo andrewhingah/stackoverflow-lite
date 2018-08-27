@@ -7,18 +7,14 @@ class User(object):
 
     """
 
-    def __init__(self, id=0, name="", email="", username="", password=""):
+    def __init__(self, id=0, name="", email="", password=""):
         self.id = id
         self.name = name
         self.email = email
         self.password = password
-        self.username = username
 
     def save(self):
         helpers.insert_user(self)
-
-    def addUser(self):
-        pass
 
 class Questions(object):
     """

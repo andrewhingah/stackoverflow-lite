@@ -1,3 +1,5 @@
+#api/helpers.py
+import datetime
 import psycopg2
 import psycopg2.extras
 
@@ -7,15 +9,14 @@ cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
 
 
 def insert_user(users):
-    cur.execute("""INSERT INTO users(name,email,username,password) VALUES('%s', '%s', '%s', '%s');"""%(
+    cur.execute("""INSERT INTO users(name,email,password) VALUES('%s', '%s', '%s');"""%(
         users.name,
         users.email,
-        users.username,
         users.password))
     conn.commit()
 
-def get_user(username):
-    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+def get_user(email):
+    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cur.fetchone()
     if user is None:
         return None
@@ -23,7 +24,7 @@ def get_user(username):
     return user
 
 def create_question(questions):
-    cur.execute("INSERT INTO questions (question, user_id) values(%s,%s)",(
+    cur.execute("""INSERT INTO questions(question,date_posted,user_id) VALUES('%s', now(), '%s')"""%(
         questions.question,
         questions.user_id))
     conn.commit()

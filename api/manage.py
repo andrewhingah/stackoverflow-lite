@@ -15,7 +15,6 @@ def migrate(app):
     	id serial PRIMARY KEY,
     	name varchar,
     	email varchar UNIQUE,
-    	username varchar,
     	password varchar
     	);""")
 
@@ -33,6 +32,7 @@ def migrate(app):
         answer varchar,
         FOREIGN KEY (question_id) REFERENCES questions(id)
         );""")
+    
     print("Database connected")
     conn.commit()
 
