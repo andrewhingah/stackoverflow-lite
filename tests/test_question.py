@@ -77,10 +77,9 @@ class TestStackOverflowApi(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.app.delete('{}/3'.format(QUIZ_URL))
         self.assertEqual(response.status_code, 204)
+
         #test a deleted item cannot be accessed
         response = self.app.get('{}/3'.format(QUIZ_URL))
-        self.assertEqual(response.status_code, 404)
-        response = self.app.delete('{}/3'.format(QUIZ_URL))
         self.assertEqual(response.status_code, 404)
 
     def test_post_answer(self):
@@ -101,19 +100,6 @@ class TestStackOverflowApi(unittest.TestCase):
                                  data=json.dumps(answer),
                                  content_type='application/json')
         self.assertEqual(response.status_code, 404)
-
-    def test_edit_question(self):
-        """
-        test that user can edit a question.
-        if question doesn't exist, add to the list
-        """
-        question = {"question": "What API's does google have?"}
-        response = self.app.put('{}/1'.format(QUIZ_URL),
-                                data=json.dumps(question),
-                                content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.get_data())
-        self.assertEqual(data['question']['question'], "What API's does google have?")
 
 
     def tearDown(self):
