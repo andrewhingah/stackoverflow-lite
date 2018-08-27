@@ -19,7 +19,7 @@ def signup():
  #        return jsonify({'message': "Email already exists."})
 	user = User(name = request.json.get("name"),
 				email = request.json.get("email"),
-				username = request.json.get("username"),
+				# username = request.json.get("username"),
 				password = request.json.get("password"))
 	user.save()
 	return jsonify({'message': 'User created!', 'User': user.__dict__})
@@ -27,12 +27,12 @@ def signup():
 
 @web.route('/api/v2/auth/signin', methods=['POST'])
 def signin():
-    username = request.json.get("username")
+    email = request.json.get("email")
     password = request.json.get("password")
 
-    user = get_user(username)
+    user = get_user(email)
     if user is None:
-        return jsonify({"message": "username not found"}), 404
+        return jsonify({"message": "user not found"}), 404
     # elif not bcrypt.verify(password, user['password']):
     #     return jsonify({'message': "Incorrect password"}), 400
     else:
@@ -40,37 +40,25 @@ def signin():
         return jsonify({'message': 'Logged in successfully!', 'token': token})
     return make_response('Your account does not exist!, Please Register!'), 401
 
+
 @web.route('/api/v2/questions', methods=['POST'])
 @jwt_required
-def post_question():
-	email = get_jwt_identity()
-	user = get_user(email)
-	question = Questions(
-						question = request.json.get("question"),
-						date_posted = datetime.now(),
-						user_id = (user["id"]))
-	question.save()
-	return jsonify({'questions': question.__dict__}), 201
+def question():
 
-# def post_question():
-#     user = get_user("email")
-#     question = Questions(
-#                         question = request.json.get("question"),
-#                         date_posted = datetime.now(),
-#                         user_id = (user["id"]))
-#     print(question);
-#     question.save()
-#     return jsonify({'questions': question.__dict__}), 201
+    email = get_jwt_identity()
+    user = get_user(email)
 
-# @web.route('/api/v2/auth/signin', methods=['POST'])
-# def signin():
-
-#     pass
+    question = Questions(
+        question = request.json.get("question"),
+        date_posted = datetime.now(),
+        user_id = (user["id"]))
+    question.save()
+    return jsonify({'Questions': question.__dict__}), 
 
 
-@web.route('/api/v2/users/questions', methods=['GET'])
-def view_all_questions():
-    return jsonify({'Questions': questions}), 200
+# @web.route('/api/v2/users/questions', methods=['GET'])
+# def view_all_questions():
+#     return jsonify({'Questions': questions}), 200
 
 
 # @web.route('/api/v2/questions/<int:id>', methods=['GET'])
