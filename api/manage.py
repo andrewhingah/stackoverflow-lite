@@ -5,6 +5,21 @@ import the adapter and try to connect to the database
 import os
 import psycopg2
 
+def clear_migration():
+    from app.app import db
+
+    conn = psycopg2.connect("dbname='test_stackoverflow_db' user='andrew' host='localhost' password='password' port='5432'")
+
+    cur = conn.cursor()
+
+    cur.execute("""DELETE FROM answers;""")
+
+    cur.execute("""DELETE FROM questions;""")
+
+    cur.execute("""DELETE FROM users;""")
+
+    conn.commit()
+
 def migrate(app):
 
     conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password' port='5432'")
