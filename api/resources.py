@@ -62,7 +62,8 @@ def view_all_questions():
     email = get_jwt_identity()
     user = get_user(email)
 
-    questions = get_questions(user['id'])
+    # questions = get_questions(user['id']) extra credit feature
+    questions = get_questions()
     if questions is None:
     
         return jsonify({'message': 'No questions available'})

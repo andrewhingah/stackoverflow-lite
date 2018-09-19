@@ -8,7 +8,9 @@ from api.manage import migrate
 config_name = os.getenv('APP_SETTINGS')  # config_name = "development"
 app = create_app(config_name)
 
-migrate(app)
+from api.manage import migrate
+migrate()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

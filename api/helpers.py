@@ -29,8 +29,9 @@ def create_question(questions):
         questions.user_id))
     conn.commit()
 
-def get_questions(user_id):
-    cur.execute("SELECT * FROM QUESTIONS WHERE user_id =%s",(user_id,))
+def get_questions():
+    # cur.execute("SELECT * FROM QUESTIONS WHERE user_id =%s",(user_id,)) extra credit feature
+    cur.execute("SELECT * FROM QUESTIONS")
     questions = cur.fetchall()
     rows = []
     for row in questions:
