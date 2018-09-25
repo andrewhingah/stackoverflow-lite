@@ -19,9 +19,10 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     db.init_app(app)
 
+    jwt = JWTManager(app)
+
     from api import resources
 
-    jwt = JWTManager(app)
     app.register_blueprint(resources.web, url_prefix="/")
 
     return app

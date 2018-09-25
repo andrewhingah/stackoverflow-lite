@@ -1,30 +1,45 @@
-import unittest
-import os
 import json
-
-from api.manage import migrate, reset_migration
-from api.app import create_app
-
-class UsersTestCase(unittest.testcase):
-	def setUp(self):
-		"""Defines test variables and initializes tests """
-		self.app = create_app(config_name="testing")
-		migrate()
-		self.checker = self.app.test_client()
-		self.users = {'name': 'Samuel Mureithi', 'email': 'mureithi@gmail.com', 'password': 'password'}
-		self.default_user = {'name': 'Andrew Hinga', 'email': 'andrewhinga5@gmail.com', 'password': 'password'}
-		self.header = {"Content-Type": "application/json"}
-		self.checker.post('/api/v2/auth/signup', data=json.dumps(self.default_user), headers=self.header)
-	def test_signup_user(self):
-		"""Test to register new user."""
-		data = self.default_user
-		response = self.checker.post('/api/v2/auth/signup', data=json.dumps(data), headers=self.header)
-		result = json.loads(response.data.decode())
-		self.assertEquals(result['message'],'New user registered!')
+from .base_test import BaseTestCase
 
 
-	def tearDown(self):
-		clear_migration()
+class UsersTestCase(BaseTestCase): 
+    """This class represents Users."""
 
-if __name__ == '__main__':
-	unittest.main()
+        
+    def test_signup_user_with_existing_email(self):
+        """Test to register user with existing email."""
+        data = self.users
+        response = self.checker.post('/api/v2/auth/signup', data=json.dumps(data), headers=self.header)
+
+        result = json.loads(response.data.decode())
+
+        self.assertEquals(result['message'],'Email already exists.')
+
+    def test_signup_user(self):
+        """Test to register new user."""
+        data = self.default_user
+        response = self.checker.post('/api/v2/auth/signup', data=json.dumps(data), headers=self.header)
+
+        result = json.loads(response.data.decode())
+
+        self.assertEquals(result['message'],'User created!')
+
+
+    def test_signin_user(self):
+        """Test user sign in to his/her account."""
+        data = self.users
+        response = self.checker.post('/api/v2/auth/signin', data=json.dumps(data), headers=self.header)
+
+        result = json.loads(response.data.decode())
+
+        self.assertEqual(result['message'], "Logged in successfully!")
+
+
+    def test_signin_user_with_invalid_email_password(self):
+        """Test user trying to login with invalid credentials."""
+        data = self.default_user
+        response = self.checker.post('/api/v2/auth/signin', data=json.dumps(data), headers=self.header)
+
+        result = json.loads(response.data.decode())
+
+        self.assertEqual(result['message'], "user not found")

@@ -2,6 +2,11 @@
 import datetime
 import psycopg2
 import psycopg2.extras
+import os
+from api.app import db
+
+conn = db.conn
+cur = db.cursor
 
 conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password'")
 

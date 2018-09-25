@@ -3,9 +3,9 @@
 import os
 
 from api.app import create_app
-from api.manage import migrate
 
 config_name = os.getenv('APP_SETTINGS')  # config_name = "development"
+
 app = create_app(config_name)
 
 from api.manage import migrate
