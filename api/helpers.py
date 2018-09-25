@@ -2,6 +2,11 @@
 import datetime
 import psycopg2
 import psycopg2.extras
+import os
+from api.app import db
+
+conn = db.conn
+cur = db.cursor
 
 conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password'")
 
@@ -29,8 +34,9 @@ def create_question(questions):
         questions.user_id))
     conn.commit()
 
-def get_questions(user_id):
-    cur.execute("SELECT * FROM QUESTIONS WHERE user_id =%s",(user_id,))
+def get_questions():
+    # cur.execute("SELECT * FROM QUESTIONS WHERE user_id =%s",(user_id,)) extra credit feature
+    cur.execute("SELECT * FROM QUESTIONS")
     questions = cur.fetchall()
     rows = []
     for row in questions:

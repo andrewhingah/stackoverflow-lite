@@ -1,8 +1,7 @@
 #api/resources.py
 """Endpoints are defined here"""
-
-from flask_api import FlaskAPI
 from flask import Blueprint
+from flask_api import FlaskAPI
 from flask import request, jsonify, make_response, json, abort
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 
@@ -43,7 +42,7 @@ def signin():
 
 @web.route('/api/v2/questions', methods=['POST'])
 @jwt_required
-def question():
+def post_question():
 
     email = get_jwt_identity()
     user = get_user(email)
@@ -55,11 +54,19 @@ def question():
     question.save()
     return jsonify({'Questions': question.__dict__}), 
 
+@web.route('/api/v2/questions', methods=['GET'])
+@jwt_required
+def view_all_questions():
+    """retrieve all questions"""
+    email = get_jwt_identity()
+    user = get_user(email)
 
-# @web.route('/api/v2/users/questions', methods=['GET'])
-# def view_all_questions():
-#     return jsonify({'Questions': questions}), 200
-
+    # questions = get_questions(user['id']) extra credit feature
+    questions = get_questions()
+    if questions is None:
+    
+        return jsonify({'message': 'No questions available'})
+    return jsonify({'Questions': questions}), 200
 
 # @web.route('/api/v2/questions/<int:id>', methods=['GET'])
 # def get_question(id):

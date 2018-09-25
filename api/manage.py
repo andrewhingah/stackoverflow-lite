@@ -3,13 +3,33 @@ import the adapter and try to connect to the database
 """
 
 import os
-import psycopg2
+# import psycopg2
 
-def migrate(app):
+def reset_migration():
+    from api.app import db
 
-    conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password' port='5432'")
+    # conn = psycopg2.connect("dbname='test_stackoverflow_db' user='postgres' host='localhost' password='postgres' port='5432'")
 
-    cur = conn.cursor()
+    # cur = conn.cursor()
+    conn = db.conn
+    cur = db.cursor
+
+    cur.execute("""DELETE FROM answers;""")
+
+    cur.execute("""DELETE FROM questions;""")
+
+    cur.execute("""DELETE FROM users;""")
+
+    conn.commit()
+
+def migrate():
+    from api.app import db
+    conn = db.conn
+    cur = db.cursor
+
+    # conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password' port='5432'")
+
+    # cur = conn.cursor()
 
     cur.execute("""CREATE TABLE IF NOT EXISTS users(
     	id serial PRIMARY KEY,
