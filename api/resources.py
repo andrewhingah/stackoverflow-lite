@@ -68,10 +68,16 @@ def view_all_questions():
         return jsonify({'message': 'No questions available'})
     return jsonify({'Questions': questions}), 200
 
-# @web.route('/api/v2/questions/<int:id>', methods=['GET'])
-# def get_question(id):
-
-#     pass
+@web.route('/api/v2/questions/<int:id>', methods=['GET'])
+# @jwt_required
+def single_question(id):
+    """retrieve single question by id"""
+    email = get_jwt_identity()
+    user = get_user(email)
+    question = get_question(id)
+    if question is None:
+        return jsonify({'message': 'Question unvailable'})
+    return jsonify({'Question': question}), 200
 
 # @web.route('/api/v2/questions/<int:id>', methods=['PUT'])
 # def edit_question(id):

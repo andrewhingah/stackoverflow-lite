@@ -8,9 +8,9 @@ from api.app import db
 conn = db.conn
 cur = db.cursor
 
-conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password'")
+# conn = psycopg2.connect("dbname='stackoverflow_db' user='andrew' host='localhost' password='password'")
 
-cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+# cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
 
 
 def insert_user(users):
@@ -48,11 +48,11 @@ def get_questions():
 
 def get_question(id):
     cur.execute("SELECT * FROM QUESTIONS WHERE id = %s", (id,))
-    requests = cur.fetchone()
-    if questions is None:
+    question = cur.fetchone()
+    if question is None:
         return None
     conn.commit()
-    return questions
+    return question
 
 def edit_question(id, req):
     cur.execute("UPDATE questions SET question = %s WHERE id = %s", (

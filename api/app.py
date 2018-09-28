@@ -2,7 +2,6 @@
     This is the core of the app
 
 """
-
 from flask_api import FlaskAPI
 from flask_jwt_extended import JWTManager
 from api.database import Database
