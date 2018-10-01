@@ -69,7 +69,7 @@ def view_all_questions():
     return jsonify({'Questions': questions}), 200
 
 @web.route('/api/v2/questions/<int:id>', methods=['GET'])
-# @jwt_required
+@jwt_required
 def single_question(id):
     """retrieve single question by id"""
     email = get_jwt_identity()
@@ -79,16 +79,28 @@ def single_question(id):
         return jsonify({'message': 'Question unvailable'})
     return jsonify({'Question': question}), 200
 
-# @web.route('/api/v2/questions/<int:id>', methods=['PUT'])
-# def edit_question(id):
+@web.route('/api/v2/questions/<int:id>', methods=['PUT'])
+def edit_question(id):
+    email = get_jwt_identity()
+    user = get_user(email)
 
-#     pass
+    question = Questions(
+        question = request.json.get("question"),
+        date_posted = datetime.now(),
+        user_id = (user["id"]))
+    question.save()
+    return jsonify({'Question': question}), 201
 
-# @web.route('/api/v2/questions/<int:id>', methods=['DELETE'])
-# def delete_question(id):
-
-
-#     pass
+@web.route('/api/v2/questions/<int:id>', methods=['DELETE'])
+@jwt_required
+def remove_question(id):
+    email = get_jwt_identity()
+    user = get_user(email)
+    question = get_question(id)
+    if question is None:
+        return jsonify({"message":"question unvailable"})
+    delete_question(id)
+    return jsonify({"message":"question has been deleted"}), 200
 
 # @web.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
 # def post_answer(id):
