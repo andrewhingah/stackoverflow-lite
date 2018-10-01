@@ -80,16 +80,31 @@ def single_question(id):
     return jsonify({'Question': question}), 200
 
 @web.route('/api/v2/questions/<int:id>', methods=['PUT'])
-def edit_question(id):
+@jwt_required
+def update_question(id):
     email = get_jwt_identity()
     user = get_user(email)
 
-    question = Questions(
-        question = request.json.get("question"),
-        date_posted = datetime.now(),
-        user_id = (user["id"]))
-    question.save()
-    return jsonify({'Question': question}), 201
+    quest_to_be_edited = get_question(id)
+    if quest_to_be_edited is None:
+        question = Questions(
+            question = request.json.get("question"),
+            date_posted = datetime.now(),
+            id = id,
+            user_id = (user["id"]))
+        question.save()
+
+        return jsonify({'Question': question.__dict__,
+            'message': "New question created"}),
+
+    else:
+        quest_to_be_edited['question'] = request.json.get('question')
+        quest_to_be_edited['date_posted'] = datetime.now()
+        edit_question(id, quest_to_be_edited)
+
+        return jsonify({"Question":quest_to_be_edited,
+            "message":"Updated successfully"}), 200
+
 
 @web.route('/api/v2/questions/<int:id>', methods=['DELETE'])
 @jwt_required

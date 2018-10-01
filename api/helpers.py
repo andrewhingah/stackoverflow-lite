@@ -54,7 +54,7 @@ def get_question(id):
     conn.commit()
     return question
 
-def edit_question(id, req):
+def edit_question(id, question):
     cur.execute("UPDATE questions SET question = %s, date_posted = %s WHERE id = %s", (
         question['question'],
         question['date_posted'],
