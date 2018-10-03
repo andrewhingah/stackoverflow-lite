@@ -23,6 +23,7 @@ class BaseTestCase(unittest.TestCase):
         self.client = self.app.test_client()
         self.questions = {'question': 'How to structure css?'}
         self.questions_1 = {'question': 'What is an API?'}
+        self.answers = {'answer':'use the best tutorials'}
 
 
         self.user = {'name': 'Andrew Hinga', 'email': 'andrewhinga5@gmail.com', 'password': 'password'}

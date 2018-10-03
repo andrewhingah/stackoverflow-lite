@@ -36,11 +36,11 @@ class Answer(object):
     Answers class
     """
 
-    def __init__(self, id=0, answer="", date_posted="", question_id=""):
+    def __init__(self, id=0, answer="", question_id=""):
         self.id = id
         self.answer = answer
-        self.date_posted = date_posted
+        # self.date_posted = date_posted
         self.question_id = question_id
         
     def save(self):
-        pass
+        helpers.post_answer(self)

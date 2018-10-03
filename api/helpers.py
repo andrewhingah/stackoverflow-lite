@@ -64,3 +64,9 @@ def edit_question(id, question):
 def delete_question(id):
     cur.execute("DELETE FROM questions WHERE id = %s", (id,))
     conn.commit()
+
+def post_answer(answers):
+    cur.execute("""INSERT INTO answers(answer, question_id) VALUES('%s','%s')"""%(
+        answers.answer,
+        answers.question_id))
+    conn.commit()

@@ -117,8 +117,17 @@ def remove_question(id):
     delete_question(id)
     return jsonify({"message":"question has been deleted"}), 200
 
-# @web.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
-# def post_answer(id):
-
-
-#     pass
+@web.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
+@jwt_required
+def post_answer(id):
+    email = get_jwt_identity()
+    user = get_user(email)
+    question = get_question(id)
+    if question is None:
+        return jsonify({"message":"question unvailable"})
+    answer = Answer(
+        answer = request.json.get("answer"),
+        # date_posted = datetime.now(),
+        question_id = (question["id"]))
+    answer.save()
+    return jsonify({'message':'your answer has been posted'})
