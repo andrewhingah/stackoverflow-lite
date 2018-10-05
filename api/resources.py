@@ -52,7 +52,7 @@ def post_question():
         date_posted = datetime.now(),
         user_id = (user["id"]))
     question.save()
-    return jsonify({'Questions': question.__dict__}), 
+    return jsonify({'Questions': question.__dict__}),
 
 @web.route('/api/v2/questions', methods=['GET'])
 @jwt_required

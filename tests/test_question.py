@@ -5,11 +5,11 @@ from .base_test import BaseTestCase
 class QuestionsTestCase(BaseTestCase):
         
     def test_post_question(self):
-        """Test posting a question."""
+        """Test user can post a question."""
         response = self.client.post(
             '/api/v2/questions', data=json.dumps(self.questions), headers=self.authHeaders)
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 200)
 
     def test_get_all_questions(self):
         """Test user view all questions."""
