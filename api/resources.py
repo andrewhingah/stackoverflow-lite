@@ -1,6 +1,6 @@
 #api/resources.py
 """Endpoints are defined here"""
-# from flask import Blueprint
+from flask import Blueprint
 from flask_api import FlaskAPI
 from flask import request, jsonify, make_response, json, abort
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
