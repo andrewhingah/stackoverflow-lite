@@ -1,11 +1,22 @@
 language: python
 python:
   - "3.6"
+
+service:
+  - postgresql
+
+before_install:
+  - psql -c "CREATE DATABASE test_data;" -U postgres
+  - psql -c "ALTER USER postgres WITH PASSWORD 'test123';" -U postgres
+
 cache: pip
+
 install:
   - pip install -r requirements.txt
   - pip install coveralls
+  
 script:
+  - nosetests --exe -v
   - nosetests tests -v --with-coverage --cover-package=api
 after_success:
   - coveralls
