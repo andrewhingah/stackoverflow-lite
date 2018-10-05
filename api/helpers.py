@@ -66,7 +66,11 @@ def delete_question(id):
     conn.commit()
 
 def post_answer(answers):
-    cur.execute("""INSERT INTO answers(answer, question_id) VALUES('%s','%s')"""%(
+    cur.execute("""INSERT INTO answers(answer, date_posted, status, question_id) VALUES('%s','%s','%s','%s')"""%(
         answers.answer,
-        answers.question_id))
+        answers.question_id,
+        answers.date_posted,
+        'pending',
+        ))
     conn.commit()
+    return cur.fetchone().get('id')

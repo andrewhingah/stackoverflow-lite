@@ -127,7 +127,7 @@ def post_answer(id):
         return jsonify({"message":"question unvailable"})
     answer = Answer(
         answer = request.json.get("answer"),
-        # date_posted = datetime.now(),
+        date_posted = datetime.now(),
         question_id = (question["id"]))
     answer.save()
     return jsonify({'message':'your answer has been posted'})

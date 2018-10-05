@@ -48,8 +48,10 @@ def migrate():
 
     cur.execute("""CREATE TABLE IF NOT EXISTS answers(
         id serial PRIMARY KEY,
-        question_id INT,
         answer varchar,
+        question_id INT,
+        date_posted TIMESTAMP,
+        status varchar,
         FOREIGN KEY (question_id) REFERENCES questions(id)
         );""")
     
