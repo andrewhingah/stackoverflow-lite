@@ -12,16 +12,26 @@ from api.helpers import insert_user,get_user, get_questions, get_question, edit_
 
 web = Blueprint("web", __name__)
 
+# @web.route('/api/v2/auth/signup', methods=['POST'])
+# def signup():
+# 	user = User(name = request.json.get("name"),
+# 				email = request.json.get("email"),
+# 				password = request.json.get("password"))
+# 	user.save()
+# 	return jsonify({'message': 'User created!', 'User': user.__dict__})
+
 @web.route('/api/v2/auth/signup', methods=['POST'])
 def signup():
-	# if user is not None:
- #        return jsonify({'message': "Email already exists."})
-	user = User(name = request.json.get("name"),
-				email = request.json.get("email"),
-				# username = request.json.get("username"),
-				password = request.json.get("password"))
-	user.save()
-	return jsonify({'message': 'User created!', 'User': user.__dict__})
+    name = request.json.get("name")
+    email = request.json.get("email")
+    password = request.json.get("password")
+    user = get_user(email)
+    if user is None:
+        user = User(name=name,email=email,password=password)
+        user.save()
+        return jsonify({'message': 'User created!', 'User': user.__dict__})
+    else:
+        return jsonify({'message':'Email already exists.'})
 
 
 @web.route('/api/v2/auth/signin', methods=['POST'])
