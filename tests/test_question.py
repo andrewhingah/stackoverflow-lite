@@ -29,7 +29,7 @@ class QuestionsTestCase(BaseTestCase):
         """Test user can edit a question."""
         response = self.client.post(
             '/api/v2/questions', data=json.dumps(self.questions), headers=self.authHeaders)
-        self.assertEqual(response.status_code, 201)  
+        self.assertEqual(response.status_code, 200)  
 
         response = self.client.put(
             '/api/v2/questions/1', data=json.dumps(self.questions_1), headers=self.authHeaders)
