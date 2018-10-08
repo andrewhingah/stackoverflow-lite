@@ -1,5 +1,5 @@
-#api/resources.py
-"""Endpoints are defined here"""
+"""This is the questions views"""
+
 from flask import Blueprint
 from flask_api import FlaskAPI
 from flask import request, jsonify, make_response, json, abort
@@ -10,47 +10,10 @@ from datetime import datetime
 from api.models import User, Questions, Answer
 from api.helpers import insert_user,get_user, get_questions, get_question, edit_question, delete_question
 
-web = Blueprint("web", __name__)
-
-# @web.route('/api/v2/auth/signup', methods=['POST'])
-# def signup():
-# 	user = User(name = request.json.get("name"),
-# 				email = request.json.get("email"),
-# 				password = request.json.get("password"))
-# 	user.save()
-# 	return jsonify({'message': 'User created!', 'User': user.__dict__})
-
-@web.route('/api/v2/auth/signup', methods=['POST'])
-def signup():
-    name = request.json.get("name")
-    email = request.json.get("email")
-    password = request.json.get("password")
-    user = get_user(email)
-    if user is None:
-        user = User(name=name,email=email,password=password)
-        user.save()
-        return jsonify({'message': 'User created!', 'User': user.__dict__})
-    else:
-        return jsonify({'message':'Email already exists.'})
+questions = Blueprint("questions", __name__)
 
 
-@web.route('/api/v2/auth/signin', methods=['POST'])
-def signin():
-    email = request.json.get("email")
-    password = request.json.get("password")
-
-    user = get_user(email)
-    if user is None:
-        return jsonify({"message": "user not found"}), 404
-    # elif not bcrypt.verify(password, user['password']):
-    #     return jsonify({'message': "Incorrect password"}), 400
-    else:
-        token = create_access_token(identity=request.json.get('email'))
-        return jsonify({'message': 'Logged in successfully!', 'token': token})
-    return make_response('Your account does not exist!, Please Register!'), 401
-
-
-@web.route('/api/v2/questions', methods=['POST'])
+@questions.route('/api/v2/questions', methods=['POST'])
 @jwt_required
 def post_question():
 
@@ -64,7 +27,7 @@ def post_question():
     question.save()
     return jsonify({'Questions': question.__dict__}),
 
-@web.route('/api/v2/questions', methods=['GET'])
+@questions.route('/api/v2/questions', methods=['GET'])
 @jwt_required
 def view_all_questions():
     """retrieve all questions"""
@@ -78,7 +41,7 @@ def view_all_questions():
         return jsonify({'message': 'No questions available'})
     return jsonify({'Questions': questions}), 200
 
-@web.route('/api/v2/questions/<int:id>', methods=['GET'])
+@questions.route('/api/v2/questions/<int:id>', methods=['GET'])
 @jwt_required
 def single_question(id):
     """retrieve single question by id"""
@@ -89,7 +52,7 @@ def single_question(id):
         return jsonify({'message': 'Question unvailable'})
     return jsonify({'Question': question}), 200
 
-@web.route('/api/v2/questions/<int:id>', methods=['PUT'])
+@questions.route('/api/v2/questions/<int:id>', methods=['PUT'])
 @jwt_required
 def update_question(id):
     email = get_jwt_identity()
@@ -116,7 +79,7 @@ def update_question(id):
             "message":"Updated successfully"}), 200
 
 
-@web.route('/api/v2/questions/<int:id>', methods=['DELETE'])
+@questions.route('/api/v2/questions/<int:id>', methods=['DELETE'])
 @jwt_required
 def remove_question(id):
     email = get_jwt_identity()
@@ -127,7 +90,7 @@ def remove_question(id):
     delete_question(id)
     return jsonify({"message":"question has been deleted"}), 200
 
-@web.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
+@questions.route('/api/v2/questions/<int:id>/answers', methods=['POST'])
 @jwt_required
 def post_answer(id):
     email = get_jwt_identity()

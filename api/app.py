@@ -20,8 +20,9 @@ def create_app(config_name):
 
     jwt = JWTManager(app)
 
-    from api import resources
+    from api import user_views, questions_views
 
-    app.register_blueprint(resources.web, url_prefix="/")
+    app.register_blueprint(user_views.watu, url_prefix="/")
+    app.register_blueprint(questions_views.questions, url_prefix="/")
 
     return app
